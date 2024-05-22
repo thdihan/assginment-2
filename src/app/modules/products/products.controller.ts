@@ -50,8 +50,29 @@ const getSpecificProduct = async (req: Request, res: Response) => {
     }
 };
 
+const updateSpecificProduct = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.productId;
+        const product: Product = req.body;
+        const { error } = productValidationSchema.validate(product);
+        const result = await ProductsService.updateSpecificProductInDb(
+            id,
+            product
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result,
+        });
+    } catch (err: any) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 export const ProductsController = {
     createProduct,
     getAllProducts,
     getSpecificProduct,
+    updateSpecificProduct,
 };
