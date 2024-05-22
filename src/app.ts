@@ -16,4 +16,8 @@ app.get("/", (req: Request, res: Response) => {
     res.json({ message: "Hello, world!" });
 });
 
+app.all("*", (req: Request, res: Response) => {
+    res.status(404).json({ message: "Route not found" });
+});
+
 export default app;
