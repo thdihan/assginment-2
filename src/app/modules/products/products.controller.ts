@@ -35,7 +35,23 @@ const getAllProducts = async (req: Request, res: Response) => {
     }
 };
 
+const getSpecificProduct = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.productId;
+        const result = await ProductsService.getSpecificProductFromDb(id);
+
+        res.status(200).json({
+            success: true,
+            message: "Product fetched successfully!",
+            data: result,
+        });
+    } catch (err: any) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 export const ProductsController = {
     createProduct,
     getAllProducts,
+    getSpecificProduct,
 };
