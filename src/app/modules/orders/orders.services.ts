@@ -28,11 +28,13 @@ const createOrderIntoDb = async (order: Order) => {
 
 const getAllOrdersFromDb = async () => {
     const result = await OrderModel.find();
+    if (!result) throw new Error("No orders found");
     return result;
 };
 
 const getOrderByEmail = async (email: string) => {
     const result = await OrderModel.find({ email: email });
+    if (result) throw new Error("No orders found for the given email");
     return result;
 };
 

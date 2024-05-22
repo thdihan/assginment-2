@@ -4,6 +4,7 @@ import { Error } from "mongoose";
 import { Product } from "./products.interface";
 import productValidationSchema from "./products.joi.validation";
 
+// Create Single Product
 const createProduct = async (req: Request, res: Response) => {
     try {
         const product: Product = req.body;
@@ -17,13 +18,18 @@ const createProduct = async (req: Request, res: Response) => {
             data: result,
         });
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({
+            success: false,
+            message: err.message,
+        });
     }
 };
 
+// Get All Products
 const getAllProducts = async (req: Request, res: Response) => {
     const { searchTerm } = req.query;
     if (searchTerm) {
+        // Get products by search term.
         try {
             const result = await ProductsService.searchByquery(
                 searchTerm as string
@@ -35,9 +41,10 @@ const getAllProducts = async (req: Request, res: Response) => {
                 data: result,
             });
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            res.status(500).json({ success: false, message: err.message });
         }
     } else {
+        // Get all products.
         try {
             const result = await ProductsService.getAllProductsFromDb();
 
@@ -47,11 +54,12 @@ const getAllProducts = async (req: Request, res: Response) => {
                 data: result,
             });
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            res.status(500).json({ success: false, message: err.message });
         }
     }
 };
 
+// Get Specific Product
 const getSpecificProduct = async (req: Request, res: Response) => {
     try {
         const id = req.params.productId;
@@ -63,10 +71,11 @@ const getSpecificProduct = async (req: Request, res: Response) => {
             data: result,
         });
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ success: false, message: err.message });
     }
 };
 
+// Update Specific Product
 const updateSpecificProduct = async (req: Request, res: Response) => {
     try {
         const id = req.params.productId;
@@ -83,10 +92,11 @@ const updateSpecificProduct = async (req: Request, res: Response) => {
             data: result,
         });
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ success: false, message: err.message });
     }
 };
 
+// Delete Specific Product
 const deleteSpecificProduct = async (req: Request, res: Response) => {
     try {
         const id = req.params.productId;
@@ -98,7 +108,7 @@ const deleteSpecificProduct = async (req: Request, res: Response) => {
             data: result,
         });
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ success: false, message: err.message });
     }
 };
 
